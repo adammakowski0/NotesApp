@@ -19,10 +19,9 @@ struct AddNoteView : View {
     var body: some View {
         
         ZStack{
-            
-            // MARK: Background
-            LinearGradient(colors: [Color(#colorLiteral(red: 0.1108649895, green: 0.1108649895, blue: 0.1108649895, alpha: 1)),Color(#colorLiteral(red: 0.1530328989, green: 0.1655356586, blue: 0.1836499572, alpha: 1)),Color(#colorLiteral(red: 0.2307908237, green: 0.2307908237, blue: 0.2307908237, alpha: 1)), Color(#colorLiteral(red: 0.2612757981, green: 0.2612757981, blue: 0.2612757981, alpha: 1))], startPoint: .topLeading, endPoint: .bottom).ignoresSafeArea()
-            
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.thinMaterial)
+
             if showAddView{
                 VStack {
                     topBar
@@ -30,9 +29,10 @@ struct AddNoteView : View {
                     
                     TextField("Title", text: $noteName)
                         .padding()
-                        .background(.white)
+                        .background()
                         .cornerRadius(10)
                         .padding(.horizontal, 15)
+                        .foregroundStyle(.secondary)
                     
                     Picker(selection: $noteType) {
                         Text("Note").tag("Note")
@@ -55,7 +55,6 @@ struct AddNoteView : View {
                         .background(.placeholder)
                         .cornerRadius(10)
                         .padding(.horizontal, 15)
-                        .foregroundStyle(.gray)
                     Spacer()
                     
                     addNoteButton
@@ -63,6 +62,7 @@ struct AddNoteView : View {
                 .transition(AnyTransition.opacity.animation(.easeIn.delay(0.2)))
             }
         }.zIndex(2.0)
+            .shadow(radius: 10)
     }
     
     var topBar: some View {
@@ -77,13 +77,13 @@ struct AddNoteView : View {
             } label: {
                 Image(systemName: "xmark.circle.fill")
                     .font(.title)
-                    .foregroundStyle(.white)
+                    .tint(.primary)
             }
             
             Spacer()
             
             Text("New \(noteType)")
-                .foregroundStyle(.white)
+                .foregroundStyle(.primary)
                 .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
                 .bold()
                 .frame(alignment: .bottom)

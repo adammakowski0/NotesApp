@@ -14,6 +14,8 @@ struct ContentView: View {
     
     @State var notes: [Note] = [Note(title: "Note title", date: Date(), content: "aaa\naaa", type: "Note")]
     
+    let columnLayout = Array(repeating: GridItem(.flexible(minimum: 10, maximum: 300), spacing: 5, alignment: .trailing), count: 2)
+    
     var body: some View {
         
         NavigationView{
@@ -22,10 +24,9 @@ struct ContentView: View {
                 // MARK: Background
                 LinearGradient(colors: [Color(#colorLiteral(red: 0.9490087628, green: 0.7816114426, blue: 0.2484521866, alpha: 1)),Color(#colorLiteral(red: 0.9633030295, green: 0.8121976256, blue: 0.3713874221, alpha: 1)),Color(#colorLiteral(red: 0.9768833518, green: 0.8486869335, blue: 0.480963707, alpha: 1)), Color(#colorLiteral(red: 1, green: 0.9349469543, blue: 0.618481338, alpha: 1))], startPoint: .bottom, endPoint: .topLeading)
                     .ignoresSafeArea()
-                    .opacity(showAddView ? 0.0 : 1.0)
                 
                 ScrollView{
-                    VStack{
+                    LazyVGrid(columns: columnLayout){
                         
                         if notes.count == 0{
                             Text("Add your first note with \(Image(systemName: "plus.circle.fill")) button")
@@ -38,9 +39,6 @@ struct ContentView: View {
                         
                         if notes.contains(where: {$0.type == "Note"}){
                             sectionRectangleViewNotes
-                                .onTapGesture {
-                                    
-                                }
                         }
                         if notes.contains(where: {$0.type == "Reminder"}){
                             sectionRectangleViewReminders
@@ -50,9 +48,9 @@ struct ContentView: View {
                         }
                     }
                 }
-                if showAddView{
-                    Color.gray.opacity(0.8).ignoresSafeArea()
-                }
+//                if showAddView{
+//                    Color.gray.opacity(0.8).ignoresSafeArea()
+//                }
                 
                 AddNoteView(showAddView: $showAddView, notes: $notes)
                     .cornerRadius(25)
